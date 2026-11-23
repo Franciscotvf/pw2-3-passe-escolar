@@ -2,6 +2,7 @@ package br.com.etec.passe_escolar.controller;
 
 import br.com.etec.passe_escolar.model.PasseEscolarModel;
 import br.com.etec.passe_escolar.repository.PasseEscolarRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class PasseEscolarController {
     }
 
     @PostMapping
-    public ResponseEntity<PasseEscolarModel> cadastrar(@RequestBody PasseEscolarModel passe) {
+    public ResponseEntity<PasseEscolarModel> cadastrar(@RequestBody @Valid PasseEscolarModel passe) {
         if (passe.getDataSolicitacao() == null) {
             passe.setDataSolicitacao(LocalDateTime.now());
         }
@@ -50,7 +51,7 @@ public class PasseEscolarController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PasseEscolarModel> atualizar(@RequestBody PasseEscolarModel passe, @PathVariable Long id) {
+    public ResponseEntity<PasseEscolarModel> atualizar(@RequestBody @Valid PasseEscolarModel passe, @PathVariable Long id) {
         var existe = passeEscolarRepository.findById(id);
         if (existe.isPresent()) {
             passe.setId(id);
